@@ -1,0 +1,22 @@
+.c-button {
+  @include flex(row, center, center, 10px);
+  height: 34px;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 10px;
+  padding: 2px 14px 0px;
+
+  color: $gray;
+  border: 1px solid $neutral-ee;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+
+  &--full {
+    width: 100%;
+  }
+
+  &--square {
+    padding: 0px;
+    aspect-ratio: 1;
+  }
+}

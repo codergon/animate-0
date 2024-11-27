@@ -1,0 +1,13 @@
+%padding-home {
+  padding-left: 5vw;
+  padding-right: 5vw;
+
+  @include phone {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+.home {
+  @include flex(column, flex-start, center);
+}
