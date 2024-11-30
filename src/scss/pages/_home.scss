@@ -1,13 +1,148 @@
-%padding-home {
-  padding-left: 5vw;
-  padding-right: 5vw;
-
-  @include phone {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-}
+$padding-hor: clamp(34px, 5vw, 80px);
 
 .home {
   @include flex(column, flex-start, center);
+  width: 100%;
+  height: 100%;
+  padding: 0vh $padding-hor;
+
+  &__topbar {
+    @include flex(row, flex-start, center);
+    top: 0;
+    width: 100%;
+    position: fixed;
+    overflow: hidden;
+    z-index: z("nav");
+    padding: 30px $padding-hor 10px;
+
+    &--block {
+      @include flex(row, flex-start, center);
+      font-size: 18px;
+      font-weight: 600;
+      .logo-text {
+        color: $black;
+        span {
+          color: $neutral-800;
+        }
+      }
+    }
+  }
+
+  &__content {
+    @include flex(column, center, center);
+    width: 100%;
+    height: 100%;
+    max-width: 2000px;
+    padding: 10vh 0px;
+
+    .cards {
+      @include flex(row, flex-start, flex-start, 20px);
+      width: 100%;
+      .card {
+        @include flex(column, flex-start, center);
+        flex: 1;
+        cursor: pointer;
+        min-width: 250px;
+        overflow: hidden;
+        aspect-ratio: 0.8;
+        border-radius: 30px;
+        background-color: $light-f6;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+
+    @include desktop {
+      max-width: 800px;
+      .cards {
+        flex-wrap: wrap;
+        .card {
+          aspect-ratio: 1;
+          min-width: calc((100% - 20px) / 2);
+        }
+      }
+    }
+
+    @include tablet {
+      height: auto;
+      max-width: 400px;
+      .cards {
+        flex-direction: column;
+        justify-content: flex-start;
+        .card {
+          flex: none;
+          width: 100%;
+          height: 380px;
+          min-width: unset;
+          aspect-ratio: unset;
+        }
+      }
+    }
+  }
+
+  &__nav {
+    @include flex(row, flex-start, center);
+    bottom: 30px;
+    height: 64px;
+    padding: 6px;
+    position: fixed;
+    overflow: hidden;
+    background: $white;
+    border-radius: 120px;
+    border: 2px solid $neutral-e9;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+
+    &--item {
+      @include flex(row, center, center);
+      height: 100%;
+      font-size: 22px;
+      aspect-ratio: 1;
+      overflow: hidden;
+      color: $neutral-7a;
+      border-radius: 80px;
+      background: $light-f2;
+      transition: all 0.3s ease-in-out;
+      &:not(.home__nav--item--main):hover {
+        color: $black;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      &--main {
+        color: $white;
+        overflow: unset;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 0px 38px;
+        aspect-ratio: unset;
+        margin-right: 10px;
+        background: $neutral-100;
+
+        ::selection {
+          color: $white;
+          background: #444;
+        }
+      }
+    }
+
+    @include phone {
+      height: 58px;
+      &--item {
+        font-size: 20px;
+        &--main {
+          font-size: 14px;
+          margin-right: 0px;
+          padding: 0px 24px;
+        }
+      }
+    }
+  }
 }

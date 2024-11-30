@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>animate-0</title>
 
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
 
     <link
       rel="preload"
@@ -14,12 +14,63 @@
       type="font/woff2"
       crossorigin
     />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="scss/index.scss" />
   </head>
 
   <body>
     <main class="home">
-      <h1>animate-0</h1>
+      <div class="home__topbar">
+        <div class="home__topbar--block">
+          <div class="logo-text">kester<span>.playground</span></div>
+        </div>
+      </div>
+
+      <div class="home__content">
+        <div class="cards">
+          <div class="card">
+            <img src="./images/1.png" alt="card-1" />
+          </div>
+          <div class="card">
+            <img src="./images/2.png" alt="card-2" />
+          </div>
+          <div class="card">
+            <img src="./images/3.png" alt="card-3" />
+          </div>
+          <div class="card">
+            <img src="./images/4.png" alt="card-4" />
+          </div>
+        </div>
+      </div>
+
+      <nav class="home__nav">
+        <div class="home__nav--item home__nav--item--main">
+          <p>GSAP - Flip Plugin</p>
+        </div>
+
+        <a
+          target="_blank"
+          href="https://github.com/codergon/animate-0"
+          class="home__nav--item"
+        >
+          <i class="ph ph-github-logo"></i>
+        </a>
+        <a
+          target="_blank"
+          href="https://x.com/thealpha_knight"
+          class="home__nav--item"
+        >
+          <i class="ph ph-x-logo"></i>
+        </a>
+
+        <a
+          target="_blank"
+          href="https://alphaglitch.dev"
+          class="home__nav--item"
+        >
+          <img src="./images/me2.png" alt="me" />
+        </a>
+      </nav>
     </main>
 
     <script type="module" src="/js/index.js"></script>

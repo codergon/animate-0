@@ -8,24 +8,20 @@
 }
 
 html {
+  height: 100%;
   overscroll-behavior: none; // prevent overscroll
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-size: calc(100vw / 1440 * 14);
-
-  @include phone {
-    font-size: calc(100vw / 500 * 14);
-  }
+  font-size: 16px;
 }
 
 body {
   color: $gray;
+  height: 100%;
   font-weight: 500;
-  min-height: 100vh;
   background: $background;
   font-family: $font-roobert;
-  font-size: 1.6rem; // or 1.4
 }
 
 // Resets
@@ -68,7 +64,6 @@ button {
   padding: 0px;
   color: inherit;
   cursor: pointer;
-  font-family: inherit;
   text-decoration: none;
   background: transparent;
 }
