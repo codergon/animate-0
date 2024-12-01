@@ -51,19 +51,24 @@ export default class Home {
 
   flip(element) {
     const content = document.querySelector(".home__content");
+    const preview = document.querySelector(".home__preview");
 
     const state = Flip.getState(".card");
     const flipId = element.dataset.flipId;
 
-    content.classList.add("preview");
     content.querySelectorAll(".card").forEach((card) => {
       if (card.dataset.flipId !== flipId) {
-        card.classList.add("hidden");
+        card.style.display = "none";
       }
     });
 
+    preview.appendChild(element);
+    element.classList.remove("card");
+    element.classList.add("card-preview");
+
     Flip.from(state, {
-      paused: true,
+      //   paused: true,
+      delay: 0.2,
       duration: 0.6,
       absolute: true,
       ease: "power2.out",
@@ -78,6 +83,9 @@ export default class Home {
             amount: 0.15,
           },
         });
+      },
+      onComplete: () => {
+        preview.style.pointerEvents = "unset";
       },
     });
   }
