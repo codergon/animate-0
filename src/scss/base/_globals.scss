@@ -9,18 +9,21 @@
 
 html {
   height: 100%;
+  font-size: 16px;
   overscroll-behavior: none; // prevent overscroll
+  background-color: $background;
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-size: 16px;
+
+  background-size: cover;
+  background-image: url("../images/bg.png");
 }
 
 body {
   color: $gray;
   height: 100%;
   font-weight: 500;
-  background: $background;
   font-family: $font-roobert;
 }
 

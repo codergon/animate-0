@@ -17,7 +17,7 @@ $padding-hor: clamp(34px, 5vw, 80px);
 
     &--block {
       @include flex(row, flex-start, center);
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 600;
       .logo-text {
         color: $black;
@@ -38,6 +38,7 @@ $padding-hor: clamp(34px, 5vw, 80px);
     .cards {
       @include flex(row, flex-start, flex-start, 20px);
       width: 100%;
+
       .card {
         @include flex(column, flex-start, center);
         flex: 1;
@@ -47,10 +48,16 @@ $padding-hor: clamp(34px, 5vw, 80px);
         aspect-ratio: 0.8;
         border-radius: 30px;
         background-color: $light-f6;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+
         img {
           width: 100%;
           height: 100%;
           object-fit: cover;
+        }
+
+        &.hidden {
+          display: none;
         }
       }
     }
@@ -81,6 +88,25 @@ $padding-hor: clamp(34px, 5vw, 80px);
         }
       }
     }
+
+    &.preview {
+      @include flex(column, center, center);
+      width: 100%;
+      height: 100%;
+
+      .cards {
+        @include flex(column, center, center);
+        width: auto;
+
+        .card {
+          flex: none;
+          width: 450px;
+          height: 600px;
+          cursor: pointer;
+          aspect-ratio: unset;
+        }
+      }
+    }
   }
 
   &__nav {
@@ -93,7 +119,6 @@ $padding-hor: clamp(34px, 5vw, 80px);
     background: $white;
     border-radius: 120px;
     border: 2px solid $neutral-e9;
-    transition: all 0.3s ease-in-out;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
 
     &--item {
