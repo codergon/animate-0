@@ -23,6 +23,12 @@
   }
 }
 
+@mixin xldesktop {
+  @media (max-width: 2056px) {
+    @content;
+  }
+}
+
 // Flex mixins
 @mixin flex($dir: column, $jc: center, $ai: center, $gap: 10px) {
   display: flex;

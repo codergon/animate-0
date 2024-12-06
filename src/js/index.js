@@ -110,6 +110,7 @@ export default class Home {
         content.appendChild(element);
       }
 
+      element.style.zIndex = "4";
       preview.classList.remove("active");
 
       const otherStates = Flip.getState(this.otherCards);
@@ -128,6 +129,7 @@ export default class Home {
         duration: 0.6,
         ease: "power2.out",
         onComplete: () => {
+          element.style.zIndex = "unset";
           preview.style.pointerEvents = "none";
 
           const cards = content.querySelectorAll(".card");

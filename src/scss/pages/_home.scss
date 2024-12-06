@@ -42,6 +42,7 @@ $padding-hor: clamp(34px, 5vw, 80px);
       .card {
         @include flex(column, flex-start, center);
         flex: 1;
+        z-index: unset;
         cursor: pointer;
         min-width: 250px;
         overflow: hidden;
@@ -58,8 +59,8 @@ $padding-hor: clamp(34px, 5vw, 80px);
       }
     }
 
-    @include desktop {
-      max-width: 800px;
+    @include xldesktop {
+      max-width: 880px;
       .cards {
         flex-wrap: wrap;
         .card {
@@ -70,17 +71,12 @@ $padding-hor: clamp(34px, 5vw, 80px);
     }
 
     @include tablet {
-      height: auto;
-      max-width: 400px;
       .cards {
-        flex-direction: column;
-        justify-content: flex-start;
+        gap: 10px;
         .card {
-          flex: none;
-          width: 100%;
-          height: 380px;
           min-width: unset;
-          aspect-ratio: unset;
+          border-radius: 16px;
+          min-width: calc((100% - 10px) / 2);
         }
       }
     }
@@ -94,17 +90,15 @@ $padding-hor: clamp(34px, 5vw, 80px);
     height: 100%;
     max-width: 2000px;
     position: absolute;
-
     pointer-events: none;
 
     .card,
     .card-preview {
       @include flex(column, flex-start, center);
-      width: 450px;
-      height: 600px;
+      width: 430px;
+      height: 580px;
       cursor: pointer;
       overflow: hidden;
-      aspect-ratio: 0.8;
       border-radius: 30px;
       background-color: $light-f6;
 
@@ -112,6 +106,13 @@ $padding-hor: clamp(34px, 5vw, 80px);
         width: 100%;
         height: 100%;
         object-fit: cover;
+      }
+    }
+
+    @include tablet {
+      .card {
+        width: 300px;
+        height: 450px;
       }
     }
   }
