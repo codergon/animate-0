@@ -1,6 +1,6 @@
 import gsap from "gsap";
-import Component from "./classes/Component";
 import { Flip } from "gsap/all";
+import Component from "./classes/Component";
 
 gsap.registerPlugin(Flip);
 
@@ -14,6 +14,12 @@ const cards = new Component({
 export default class Home {
   constructor() {
     this.cards = cards.elements.cards;
+
+    this.state = null;
+    this.flipId = null;
+    this.otherCards = null;
+    this.otherStates = null;
+    this.isFlipping = false;
 
     // this.setup();
     this.addListeners();
@@ -31,11 +37,9 @@ export default class Home {
     })
       .from(this.cards, {
         duration: 0.6,
+        stagger: 0.15,
         ease: "power2.out",
         clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
-        stagger: {
-          amount: 0.15,
-        },
       })
       .from(
         ".home__nav",
@@ -50,51 +54,100 @@ export default class Home {
   }
 
   flip(element) {
-    const content = document.querySelector(".home__content");
+    if (this.isFlipping) return;
+
+    this.isFlipping = true;
+
+    const content = document.querySelector(".home__content .cards");
     const preview = document.querySelector(".home__preview");
 
-    const state = Flip.getState(".card");
-    const flipId = element.dataset.flipId;
+    if (!preview.classList.contains("active")) {
+      const state = Flip.getState(element);
+      this.flipId = element.dataset.flipId;
 
-    content.querySelectorAll(".card").forEach((card) => {
-      if (card.dataset.flipId !== flipId) {
-        card.style.display = "none";
-      }
-    });
+      // ANIMATE OUT THE OTHER CARDS
+      this.otherCards = content.querySelectorAll(
+        `.card:not([data-flip-id="${this.flipId}"])`
+      );
+      const otherStates = Flip.getState(this.otherCards);
 
-    preview.appendChild(element);
-    element.classList.remove("card");
-    element.classList.add("card-preview");
+      Flip.from(otherStates, {
+        duration: 0.6,
+        absolute: true,
+        ease: "power2.out",
+        targets: this.otherCards,
+        clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
+      });
 
-    Flip.from(state, {
-      //   paused: true,
-      delay: 0.2,
-      duration: 0.6,
-      absolute: true,
-      ease: "power2.out",
-      onLeave: (elements) => {
-        console.log(elements);
+      // ANIMATE IN THE CARD THAT WAS CLICKED
+      preview.appendChild(element);
+      preview.classList.add("active");
 
-        gsap.to(elements, {
-          duration: 0.6,
-          ease: "power2.out",
-          clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
-          stagger: {
-            amount: 0.15,
-          },
-        });
-      },
-      onComplete: () => {
-        preview.style.pointerEvents = "unset";
-      },
-    });
+      Flip.from(state, {
+        duration: 0.6,
+        absolute: true,
+        ease: "power2.out",
+        onComplete: () => {
+          this.isFlipping = false;
+          preview.style.pointerEvents = "unset";
+        },
+      });
+    } else {
+      Flip.killFlipsOf(element);
+      Flip.killFlipsOf(this.otherCards);
+
+      const state = Flip.getState(element);
+
+      //
+      content.appendChild(element);
+
+      preview.classList.remove("active");
+
+      const otherStates = Flip.getState(this.otherCards);
+
+      Flip.from(otherStates, {
+        // paused: true,
+
+        duration: 0.6,
+        ease: "power2.out",
+        targets: this.otherCards,
+        clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      });
+
+      Flip.from(state, {
+        // paused: true,
+
+        duration: 0.6,
+        ease: "power2.out",
+        onComplete: () => {
+          preview.style.pointerEvents = "none";
+
+          const cards = content.querySelectorAll(".card");
+
+          gsap.to(gsap.utils.toArray(cards), {
+            duration: 0.1,
+            clearProps: "all",
+            onComplete: () => (this.isFlipping = false),
+          });
+        },
+      });
+    }
+  }
+
+  animateOut(event) {
+    const card =
+      event.target.tagName === "IMG"
+        ? event.target.closest(".card")
+        : event.target;
+
+    this.flip(card);
   }
 
   addListeners() {
+    this.boundAnimateOut = this.animateOut.bind(this);
+
     this.cards.forEach((card) => {
-      card.addEventListener("click", () => {
-        this.flip(card);
-      });
+      card.addEventListener("click", this.boundAnimateOut, true);
     });
   }
 }

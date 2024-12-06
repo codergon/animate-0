@@ -97,6 +97,7 @@ $padding-hor: clamp(34px, 5vw, 80px);
 
     pointer-events: none;
 
+    .card,
     .card-preview {
       @include flex(column, flex-start, center);
       width: 450px;
