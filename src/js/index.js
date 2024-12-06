@@ -98,32 +98,39 @@ export default class Home {
 
       const state = Flip.getState(element);
 
-      //
-      content.appendChild(element);
+      // GET ELEMENT'S INDEX AND APPEND
+      const cardIndex = Number(this.flipId?.split("-")[1]);
+      const elementBefore = content.querySelector(
+        `.card[data-flip-id="card-${cardIndex + 1}"]`
+      );
+
+      if (elementBefore) {
+        content.insertBefore(element, elementBefore);
+      } else {
+        content.appendChild(element);
+      }
 
       preview.classList.remove("active");
 
       const otherStates = Flip.getState(this.otherCards);
 
+      // ANIMATE OTHER CARDS TO THEIR INITIAL POSITION
       Flip.from(otherStates, {
-        // paused: true,
-
+        delay: 0.15,
         duration: 0.6,
         ease: "power2.out",
         targets: this.otherCards,
         clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
       });
 
+      // RETURN CARD TO ITS INITIAL POSITION
       Flip.from(state, {
-        // paused: true,
-
         duration: 0.6,
         ease: "power2.out",
         onComplete: () => {
           preview.style.pointerEvents = "none";
 
           const cards = content.querySelectorAll(".card");
-
           gsap.to(gsap.utils.toArray(cards), {
             duration: 0.1,
             clearProps: "all",
