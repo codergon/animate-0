@@ -35,12 +35,16 @@ export default class Home {
       yPercent: -100,
       ease: "power2.out",
     })
-      .from(this.cards, {
-        duration: 0.6,
-        stagger: 0.15,
-        ease: "power2.out",
-        clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
-      })
+      .from(
+        this.cards,
+        {
+          duration: 0.6,
+          stagger: 0.15,
+          ease: "power2.out",
+          clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
+        },
+        "<+=0.2"
+      )
       .from(
         ".home__nav",
         {
@@ -49,7 +53,7 @@ export default class Home {
           duration: 0.5,
           ease: "power2.out",
         },
-        "<+=0.2"
+        "<+=0.4"
       );
   }
 
