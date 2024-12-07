@@ -21,7 +21,7 @@ export default class Home {
     this.otherStates = null;
     this.isFlipping = false;
 
-    // this.setup();
+    this.setup();
     this.addListeners();
   }
 
@@ -54,6 +54,11 @@ export default class Home {
   }
 
   flip(element) {
+    console.log(element);
+
+    let elementImg = element.querySelector("img");
+    if (!elementImg) elementImg = element;
+
     if (this.isFlipping) return;
 
     this.isFlipping = true;
@@ -62,8 +67,11 @@ export default class Home {
     const preview = document.querySelector(".home__preview");
 
     if (!preview.classList.contains("active")) {
-      const state = Flip.getState(element);
+      console.log("Heeee111");
+
+      const state = Flip.getState(elementImg);
       this.flipId = element.dataset.flipId;
+      this.currentCard = element;
 
       // ANIMATE OUT THE OTHER CARDS
       this.otherCards = content.querySelectorAll(
@@ -73,14 +81,13 @@ export default class Home {
 
       Flip.from(otherStates, {
         duration: 0.6,
-        absolute: true,
         ease: "power2.out",
         targets: this.otherCards,
         clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
       });
 
       // ANIMATE IN THE CARD THAT WAS CLICKED
-      preview.appendChild(element);
+      preview.appendChild(elementImg);
       preview.classList.add("active");
 
       Flip.from(state, {
@@ -90,6 +97,16 @@ export default class Home {
         onComplete: () => {
           this.isFlipping = false;
           preview.style.pointerEvents = "unset";
+
+          element.style.clipPath = "unset";
+
+          preview.querySelector("img").addEventListener(
+            "click",
+            () => {
+              this.flip(elementImg);
+            },
+            true
+          );
         },
       });
     } else {
@@ -97,23 +114,12 @@ export default class Home {
       Flip.killFlipsOf(this.otherCards);
 
       const state = Flip.getState(element);
-
-      // GET ELEMENT'S INDEX AND APPEND
-      const cardIndex = Number(this.flipId?.split("-")[1]);
-      const elementBefore = content.querySelector(
-        `.card[data-flip-id="card-${cardIndex + 1}"]`
-      );
-
-      if (elementBefore) {
-        content.insertBefore(element, elementBefore);
-      } else {
-        content.appendChild(element);
-      }
-
-      element.style.zIndex = "4";
-      preview.classList.remove("active");
-
       const otherStates = Flip.getState(this.otherCards);
+
+      this.currentCard.appendChild(element);
+      this.currentCard.style.zIndex = "4";
+      preview.classList.remove("active");
+      preview.style.pointerEvents = "none";
 
       // ANIMATE OTHER CARDS TO THEIR INITIAL POSITION
       Flip.from(otherStates, {
@@ -124,13 +130,14 @@ export default class Home {
         clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
       });
 
-      // RETURN CARD TO ITS INITIAL POSITION
+      // RETURN IMG TO ITS INITIAL CARD
       Flip.from(state, {
+        // paused: true,
         duration: 0.6,
+        absolute: true,
         ease: "power2.out",
         onComplete: () => {
-          element.style.zIndex = "unset";
-          preview.style.pointerEvents = "none";
+          this.currentCard.style.zIndex = "unset";
 
           const cards = content.querySelectorAll(".card");
           gsap.to(gsap.utils.toArray(cards), {

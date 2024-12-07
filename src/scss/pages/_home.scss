@@ -45,16 +45,17 @@ $padding-hor: clamp(34px, 5vw, 80px);
         z-index: unset;
         cursor: pointer;
         min-width: 250px;
-        overflow: hidden;
+        // overflow: hidden;
         aspect-ratio: 0.8;
         border-radius: 30px;
-        background-color: $light-f6;
+        // background-color: $light-f6;
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 
         img {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          border-radius: 30px;
         }
       }
     }
@@ -77,6 +78,9 @@ $padding-hor: clamp(34px, 5vw, 80px);
           min-width: unset;
           border-radius: 16px;
           min-width: calc((100% - 10px) / 2);
+          img {
+            border-radius: 16px;
+          }
         }
       }
     }
@@ -92,27 +96,21 @@ $padding-hor: clamp(34px, 5vw, 80px);
     position: absolute;
     pointer-events: none;
 
-    .card,
-    .card-preview {
+    img {
       @include flex(column, flex-start, center);
       width: 430px;
       height: 580px;
       cursor: pointer;
-      overflow: hidden;
+      object-fit: cover;
       border-radius: 30px;
       background-color: $light-f6;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
     }
 
     @include tablet {
-      .card {
-        width: 300px;
+      img {
         height: 450px;
+        border-radius: 16px;
+        width: calc(min(90vw, 400px));
       }
     }
   }
